@@ -45,7 +45,8 @@ Bundle 'nanotech/jellybeans.vim'
 
 "Plugin 'scrooloose/syntastic'
 
-Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
 Plugin 'airblade/vim-gitgutter'
 
@@ -62,6 +63,8 @@ Plugin 'Raimondi/delimitMate'
 Plugin 'tpope/vim-unimpaired'
 
 Plugin 'christoomey/vim-tmux-navigator'
+
+Plugin 'ssh://git.amazon.com:2222/pkg/VimIon.git'
 
 let mapleader = "\<Space>"
 
@@ -113,7 +116,7 @@ set t_Co=256
 
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme='bubblegum'
+let g:airline_theme='base16_eighties'
 let g:airline#extensions#branch#enabled = 1
 let g:airline_section_b = " %{fugitive#head()}"
 " size of a hard tabstop
@@ -133,6 +136,9 @@ autocmd Filetype jsp setlocal ts=2 sts=2 sw=2
 autocmd Filetype tag setlocal ts=2 sts=2 sw=2
 autocmd Filetype js setlocal ts=2 sts=2 sw=2
 autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
+autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
+autocmd Filetype xml setlocal ts=2 sts=2 sw=2
+autocmd Filetype sdl setlocal ts=2 sts=2 sw=2
 
 colorscheme lilypink
 "colorscheme jellybeans
@@ -159,3 +165,33 @@ set shortmess+=A
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.swo,eclipse-bin/*
 
 highlight clear SignColumn
+
+" air-line
+let g:airline_powerline_fonts = 1
+
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
+" unicode symbols
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+let g:airline_symbols.linenr = '␊'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.whitespace = 'Ξ'
+
+" airline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''

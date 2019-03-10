@@ -46,7 +46,7 @@ ZSH_THEME="robbyrussell"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git ruby golang django scala gem history history-substring-search terminalapp brew nanoc zsh-syntax-highlighting)
+plugins=(git ruby golang django scala gem history history-substring-search terminalapp brew nanoc zsh-syntax-highlighting zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -70,7 +70,7 @@ export PATH=$PATH:"/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin"
 
 alias wsm="sudo sshfs -o transform_symlinks -o follow_symlinks -o uid=$(id -u) -o gid=$(id -g) -o allow_other garrsato@garrsato.desktop.amazon.com:/workplace/garrsato/ /Users/garrsato/workplace/"
 
-alias sshr="ssh garrsato.desktop.amazon.com"
+alias sshr="ssh garrsato-2c.aka.corp.amazon.com"
 alias sshba="ssh aws-beta-portal-9003.sea19.amazon.com"
 alias sshbb="ssh aws-beta-portal-0101.sea3.amazon.com"
 alias sshga="aws-billingportal-sot-gamma-6001.iad6.amazon.com"
@@ -80,6 +80,7 @@ alias bbi="brazil-build test-integration-assert"
 #export PATH=$PATH:~/Cloud9BrazilBuild-1.0/bin
 
 #export PATH="/apollo/env/SDETools/bin:$PATH"
+export PATH="/apollo/env/SDETools/bin:$PATH"
 
 alias cpush="git squash HEAD && git push origin :garrsato && git push origin HEAD:garrsato"
 alias push="git push origin :garrsato && git push origin HEAD:garrsato"
@@ -132,7 +133,33 @@ function bb() {
     ws_name=${intermediate%/src/*}
     echo $ws_name
     echo $package
-    /Users/garrsato/workspace/GS2/src/GS2/scripts/build_server.rb $ws_name $package $1
+    /Users/garrsato/workspace/GS2/src/GS2/scripts/build_server.rb $ws_name $package $1 do_clean
+}
+
+function bbnc() {
+    bbhelper $1 no_clean
+}
+
+function bbhelper() {
+    dir_path=`pwd`
+    package=${dir_path#*/src/}
+    intermediate=${dir_path#*/workspace/}
+    ws_name=${intermediate%/src/*}
+    echo $ws_name
+    echo $package
+    /Users/garrsato/workspace/GS2/src/GS2/scripts/build_server.rb $ws_name $package $1 $2
+}
+
+function addshare() {
+    dir_path=`pwd`
+    package=${dir_path#*/src/}
+    git remote add share ssh://git.amazon.com:2222/pkg/$1/share/garrsato
+}
+
+function addbackup() {
+    dir_path=`pwd`
+    package=${dir_path#*/src/}
+    git remote add backup ssh://git.amazon.com:2222/pkg/$1/backup/garrsato
 }
 
 alias bbcr="brazil-build clean && brazil-build release"
@@ -151,13 +178,58 @@ function car() {
     javac -g $1.java && java $1
 }
 
-alias cdint="cdws && cd ruby_interview_prep"
+alias cdint="cd /Users/garrsato/workspace/ruby_interview_prep"
 alias cdgs="cd /Users/garrsato/workspace/GS2/src/GS2"
 
 function bamp() {
     bb build && cd .. && cd AWSMPSellerPortalServlet && bb server-gamma && cd .. && cd AMMPProductFragment
 }
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+alias cdamp="cd /Users/garrsato/workspace/AMMP/src"
 
-alias sshd="ssh lostintuition@10.0.0.5"
+function catlog() {
+    /Users/garrsato/workspace/GS2/src/GS2/scripts/cat_logs.rb $1
+}
+
+function catamp() {
+    catlog "AWSMPSellerPortalServlet_build.log"
+}
+
+function catfile() {
+    /Users/garrsato/workspace/GS2/src/GS2/scripts/cat_file.rb $1
+}
+
+function pt() {
+    dir_path=`pwd`
+    package=${dir_path#*/src/}
+    intermediate=${dir_path#*/workspace/}
+    ws_name=${intermediate%/src/*}
+    echo $ws_name
+    echo $package
+    /Users/garrsato/workspace/GS2/src/GS2/scripts/pass_through.rb $ws_name $package $1
+}
+
+export SSH_AUTH_SOCK=$HOME/.ssh_auth_sock
+alias screpin='killall ssh-agent; source ~/.ssh-agent-start'
+
+# alias ssh="assh"
+
+export PATH="$PATH:/Applications/Sublime Text.app/Contents/SharedSupport/bin:/Users/garrsato/bin"
+
+function add_alias() {
+}
+
+alias cdfmc="cd /Users/garrsato/workspace/test/src/FleetManagementConsole"
+alias cdk='cdws && cd K2Scripts/src/AWSKumoKonsoleCustomerServiceScripts'
+alias cdb='cdws && cd Bdlis/src/'
+alias fix_bbaa="cd /tmp && wget http://kickstart/extras/snitch-agent-2.271-1.i386.rpm && sudo rpm -Uvh snitch-agent-2.271-1.i386.rpm"
+
+alias odin="ssh -L 2009:localhost:2009 garrsato-2c.aka.corp.amazon.com -f -N"
+
+export PATH=$HOME/.toolbox/bin:$PATH
+export PATH=$PATH:$HOME/.odin-tools/env/OdinRetrievalScript-1.0/runtime/bin
+export PATH=$PATH:/opt/apache-maven/bin
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
